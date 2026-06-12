@@ -56,3 +56,55 @@ After separating the devices into different VLANs, save the data permanently to 
 do write memory
 ```
 
+# 02. Basic Inter-Subnet Routing via Cisco Router (Packet Tracer)
+
+This project demonstrates how to connect two separate Local Area Networks (LANs) using a Cisco Router as a Default Gateway. The network is divided into two distinct subnets: `192.168.1.0/24` (left side) and `192.168.2.0/24` (right side), allowing secure and controlled communication between different network segments.
+
+---
+
+## 📐 Network Topology
+
+Below is the visual network topology diagram showing how the PCs, switches, and the router are interconnected in Cisco Packet Tracer:
+
+![Network Topology Diagram](images/SendPackets.png)
+
+### Addressing and Port Assignment Table:
+
+| Device | Connected To | Interface / Port | IP Address | Subnet Mask | Default Gateway |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Router2** | Switch0 (Left) | GigabitEthernet 0/0 | `192.168.1.10` | `255.255.255.0` | *N/A* |
+| **Router2** | Switch1 (Right) | GigabitEthernet 0/1 | `192.168.2.10` | `255.255.255.0` | *N/A* |
+| **PC0** | Switch0 | FastEthernet 0/1 | `192.168.1.1` | `255.255.255.0` | `192.168.1.10` |
+| **PC1** | Switch0 | FastEthernet 0/2 | `192.168.1.2` | `255.255.255.0` | `192.168.1.10` |
+| **PC2** | Switch0 | FastEthernet 0/3 | `192.168.1.3` | `255.255.255.0` | `192.168.1.10` |
+| **PC3** | Switch1 | FastEthernet 0/1 | `192.168.2.1` | `255.255.255.0` | `192.168.2.10` |
+| **PC4** | Switch1 | FastEthernet 0/2 | `192.168.2.2` | `255.255.255.0` | `192.168.2.10` |
+| **PC5** | Switch1 | FastEthernet 0/3 | `192.168.2.3` | `255.255.255.0` | `192.168.2.10` |
+
+---
+
+## 🛠️ Configuration Guide (CLI Script)
+
+To replicate this configuration, log into the **Router2** Command Line Interface (**CLI**) and execute the following commands to assign IP addresses and activate the interfaces:
+
+### Router Configuration
+```text
+enable
+configure terminal
+
+! Configure the Left Subnet Gateway (Switch0 side)
+interface GigabitEthernet0/0
+ ip address 192.168.1.10 255.255.255.0
+ no shutdown
+ do write memory
+exit
+
+! Configure the Right Subnet Gateway (Switch1 side)
+interface GigabitEthernet0/1
+ ip address 192.168.2.10 255.255.255.0
+ no shutdown
+ do write memory
+exit
+
+end
+
