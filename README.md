@@ -8,7 +8,7 @@ This project demonstrates secure LAN segmentation on a Cisco switch using Virtua
 
 Below is the visual network topology diagram showing the connections between the PCs and the switch, created in Cisco Packet Tracer:
 
-![Network Topology Diagram](images/VLAN.png)
+![Network Topology Diagram](images/01.png)
 
 ### Addressing and Port Assignment Table:
 
@@ -66,7 +66,7 @@ This project demonstrates how to connect two separate Local Area Networks (LANs)
 
 Below is the visual network topology diagram showing how the PCs, switches, and the router are interconnected in Cisco Packet Tracer:
 
-![Network Topology Diagram](images/SendPackets.png)
+![Network Topology Diagram](images/02.png)
 
 ### Addressing and Port Assignment Table:
 
