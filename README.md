@@ -117,7 +117,7 @@ This project demonstrates how to connect two separate Local Area Networks (LANs)
 
 Below is the visual network topology diagram showing how the PCs, switches, and routers are interconnected in Cisco Packet Tracer:
 
-![Network Topology Diagram](images/3.png)
+![Network Topology Diagram](images/03.png)
 
 Addressing and Port Assignment Table:
 
@@ -144,19 +144,18 @@ To replicate this configuration, log into the respective Router Command Line Int
 enable
 configure terminal
 
-! Configure the Left Subnet Gateway (Switch0 side)
+
 interface GigabitEthernet0/0
  ip address 192.168.1.10 255.255.255.0
  no shutdown
 exit
 
-! Configure the WAN Interconnect Interface (Router1 side)
 interface GigabitEthernet0/1
  ip address 10.0.1.1 255.255.255.0
  no shutdown
 exit
 
-! Inject Static Route to the Right Subnet via Router1 Next-Hop IP
+
 ip route 192.168.2.0 255.255.255.0 10.0.1.2
 do write memory
 end
@@ -168,19 +167,19 @@ end
 enable
 configure terminal
 
-! Configure the WAN Interconnect Interface (Router0 side)
+
 interface GigabitEthernet0/1
  ip address 10.0.1.2 255.255.255.0
  no shutdown
 exit
 
-! Configure the Right Subnet Gateway (Switch1 side)
+
 interface GigabitEthernet0/0
  ip address 192.168.2.10 255.255.255.0
  no shutdown
 exit
 
-! Inject Static Route to the Left Subnet via Router0 Next-Hop IP
+
 ip route 192.168.1.0 255.255.255.0 10.0.1.1
 do write memory
 end
