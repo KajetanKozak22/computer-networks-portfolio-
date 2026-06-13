@@ -107,4 +107,81 @@ interface GigabitEthernet0/1
 exit
 
 end
+```
 
+# 03. Static Routing Configuration Between Two Cisco Routers (Packet Tracer)
+
+This project demonstrates how to connect two separate Local Area Networks (LANs) across a point-to-point Wide Area Network (WAN) link using two Cisco Routers and Static Routing. The network is segmented into three distinct subnets: 192.168.1.0/24 (left LAN), 10.0.1.0/24 (transit WAN link), and 192.168.2.0/24 (right LAN), enabling secure and explicit routing boundaries between different network branches.
+
+## 📐 Network Topology
+
+Below is the visual network topology diagram showing how the PCs, switches, and routers are interconnected in Cisco Packet Tracer:
+
+![Network Topology Diagram](images/3.png)
+
+Addressing and Port Assignment Table:
+
+| Device | Connected To | Interface / Port | IP Address | Subnet Mask | Default Gateway |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Router0** | Switch0 (Left LAN) | GigabitEthernet 0/0 | `192.168.1.10` | `255.255.255.0` | *N/A* |
+| **Router0** | Router1 (WAN Interconnect) | GigabitEthernet 0/1 | `10.0.1.1` | `255.255.255.0` | *N/A* |
+| **Router1** | Router0 (WAN Interconnect) | GigabitEthernet 0/1 | `10.0.1.2` | `255.255.255.0` | *N/A* |
+| **Router1** | Switch1 (Right LAN) | GigabitEthernet 0/0 | `192.168.2.10` | `255.255.255.0` | *N/A* |
+| **PC2** | Switch0 | FastEthernet 0/1 | `192.168.1.1` | `255.255.255.0` | `192.168.1.10` |
+| **PC0** | Switch0 | FastEthernet 0/2 | `192.168.1.2` | `255.255.255.0` | `192.168.1.10` |
+| **PC1** | Switch0 | FastEthernet 0/3 | `192.168.1.3` | `255.255.255.0` | `192.168.1.10` |
+| **PC3** | Switch1 | FastEthernet 0/1 | `192.168.2.1` | `255.255.255.0` | `192.168.2.10` |
+| **PC4** | Switch1 | FastEthernet 0/2 | `192.168.2.2` | `255.255.255.0` | `192.168.2.10` |
+| **PC5** | Switch1 | FastEthernet 0/3 | `192.168.2.3` | `255.255.255.0` | `192.168.2.10` |
+
+## 🛠️ Configuration Guide (CLI Script)
+
+To replicate this configuration, log into the respective Router Command Line Interface (CLI) and execute the following commands to assign IP addresses, activate the interfaces, and inject the static routes:
+
+### Router0 Configuration (Left Side)
+
+```text
+enable
+configure terminal
+
+! Configure the Left Subnet Gateway (Switch0 side)
+interface GigabitEthernet0/0
+ ip address 192.168.1.10 255.255.255.0
+ no shutdown
+exit
+
+! Configure the WAN Interconnect Interface (Router1 side)
+interface GigabitEthernet0/1
+ ip address 10.0.1.1 255.255.255.0
+ no shutdown
+exit
+
+! Inject Static Route to the Right Subnet via Router1 Next-Hop IP
+ip route 192.168.2.0 255.255.255.0 10.0.1.2
+do write memory
+end
+```
+
+### Router1 Configuration (Right Side)
+
+```text
+enable
+configure terminal
+
+! Configure the WAN Interconnect Interface (Router0 side)
+interface GigabitEthernet0/1
+ ip address 10.0.1.2 255.255.255.0
+ no shutdown
+exit
+
+! Configure the Right Subnet Gateway (Switch1 side)
+interface GigabitEthernet0/0
+ ip address 192.168.2.10 255.255.255.0
+ no shutdown
+exit
+
+! Inject Static Route to the Left Subnet via Router0 Next-Hop IP
+ip route 192.168.1.0 255.255.255.0 10.0.1.1
+do write memory
+end
+```
